@@ -98,14 +98,15 @@ const clickedIt = document.getElementById("input-btn");
 const inputEl = document.getElementById("input-el");
 const ulEl = document.getElementById("ul-el");
 
+const leadsFromLocalStorage = JSON.parse(localStorage.getItem("myLeads"));
+console.log(leadsFromLocalStorage);
 
 clickedIt.addEventListener("click", () => {
     renderLeads(inputEl.value);
 
     myLeads.push(inputEl.value);
-    console.log(myLeads);
-    localStorage.setItem("myLeads", `${myLeads}`);
-    console.log(localStorage.getItem("myLeads"));
+    localStorage.setItem("myLeads",JSON.stringify(myLeads));
+    console.log( localStorage.getItem("myLeads") );
     inputEl.value = "";
 
 });
@@ -114,7 +115,7 @@ function renderLeads(val) {
     let liContainer = document.createElement("li");
     let aLink = document.createElement("a");
 
-    liContainer.classList.add("underline");
+   /* liContainer.classList.add("underline");*/
     aLink.target = "_blank";
     aLink.href = val;
     aLink.innerHTML = val;
@@ -123,6 +124,31 @@ function renderLeads(val) {
     ulEl.appendChild(liContainer);
 }
 
+
+const credits = 12;
+
+if ("") {
+    console.log("let's play");
+}
+else {
+    console.log("You do not have enough credits");
+}
+
+//truthy = everything else other then in falsy
+//falsy = false, 0, "", null, undefined, NaN
+// null is used by developers to signalize emptiness
+// undefined is used by JavaScript to signalize emptiness
+
+/*let currentViewers = null;*/
+/*
+currentViewers = ["Jane", "Nick"];
+
+if (currentViewers) {
+    console.log("we have viewers")
+}
+*/
+let currentViewers;
+console.log(currentViewers);
 
 /*const recipient = "James";
 const sender = "Thomas";
