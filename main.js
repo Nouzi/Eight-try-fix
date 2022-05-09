@@ -97,21 +97,48 @@ let myLeads = [];
 const clickedIt = document.getElementById("input-btn");
 const inputEl = document.getElementById("input-el");
 const ulEl = document.getElementById("ul-el");
+const delEl = document.getElementById("delete-btn");
+const saveEl = document.getElementById("save-btn");
 
+// ["lead1", "lead2"] or null
 const leadsFromLocalStorage = JSON.parse(localStorage.getItem("myLeads"));
-console.log(leadsFromLocalStorage);
+
+if (leadsFromLocalStorage) {
+    myLeads = leadsFromLocalStorage;
+    render(myLeads);  
+}
+
+/*const tabs = [
+    {url: "https://www.linkedin.com/?trk=public_profile_nav-header-logo/"}
+]*/
+
+saveEl.addEventListener("click", () => {
+    chrome.tabs.query({active: true, currentWindow: true}, function(tabs){
+        myLeads.push(tabs[0].url)
+        localStorage.setItem("myLeads", JSON.stringify( myLeads ));
+        render(myLeads);
+    });
+
+
+})
+
+delEl.addEventListener("dblclick", () => {
+    localStorage.clear();
+    myLeads = [];
+    document.location.reload(); // malo tu byť niečo iné ale keďže bola pozmenená funkcia renderLeads() a vykresluje každú hodnotu zvlášť tak ma nič iné nenapadlo len proste reštarovať celú stránku. 
+})
 
 clickedIt.addEventListener("click", () => {
-    renderLeads(inputEl.value);
+    render(inputEl.value);
 
     myLeads.push(inputEl.value);
     localStorage.setItem("myLeads",JSON.stringify(myLeads));
-    console.log( localStorage.getItem("myLeads") );
+    console.log( localStorage.getItem("myLeads") ); // toto je len pre istotu, aby som vedel v akej forme sa mi to zobrazuje v localStorage.
     inputEl.value = "";
 
 });
 
-function renderLeads(val) {
+function render(val) {
     let liContainer = document.createElement("li");
     let aLink = document.createElement("a");
 
@@ -124,6 +151,31 @@ function renderLeads(val) {
     ulEl.appendChild(liContainer);
 }
 
+function getFirst(arr) {
+    return arr[0];
+}
+
+console.log( getFirst([1,2,3,4]) );
+
+// function add(numberOne, numberTwo) {
+//    return numberOne + numberTwo;
+// }
+
+// console.log(add(1, 4));
+
+// const pEl = document.getElementById("p-el");
+
+// function greetUser(greeting = "Welcome", name = "Peter") {
+//     pEl.textContent = ` ${greeting},  ${name}  Wave`
+// }
+
+// greetUser("Hello", "Patrick");
+
+
+// let trueOrFalse = Boolean("");
+// console.log(trueOrFalse);
+
+/*
 
 const credits = 12;
 
@@ -139,16 +191,15 @@ else {
 // null is used by developers to signalize emptiness
 // undefined is used by JavaScript to signalize emptiness
 
-/*let currentViewers = null;*/
-/*
+let currentViewers = null;
 currentViewers = ["Jane", "Nick"];
 
 if (currentViewers) {
     console.log("we have viewers")
 }
-*/
 let currentViewers;
 console.log(currentViewers);
+*/
 
 /*const recipient = "James";
 const sender = "Thomas";
